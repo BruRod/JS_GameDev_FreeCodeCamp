@@ -190,6 +190,42 @@ window.addEventListener("load", function(){
         }
     }
 
+    class Enemy{
+        constructor(game){
+            this.game = game;
+            this.collisionRadius = 30;
+            this.collisionX = this.game.width;
+            this.collisionY = Math.random() * this.game.height;
+            this.speedX = Math.random() * 3 + 0.5;
+            this.image = document.getElementById('toad');
+            this.spriteWidth = 140;
+            this.spriteHeight = 260;
+            this.width = this.spriteWidth;
+            this.height = this.spriteHeight;
+            this.spriteX;
+            this.spriteY;
+        }
+        draw(context){
+            context.drawImage(this.image, this.spriteX, this.spriteY);
+            if (this.game.debug) {
+                context.beginPath();
+                context.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI*2);
+                context.save();
+                context.globalAlpha = 0.5;
+                context.fill();
+                context.restore();
+                context.stroke();
+           }
+        }
+        update(){
+            this.collisionX -= this.speedX;
+            if ( this.spriteX + this.width <0) {
+                this.collisionX = this.game.width;
+                this.collisionY = Math.random() * this.game.height;
+            }
+        }
+    }
+
     class Game {
         constructor(canvas){
             this.canvas = canvas;
